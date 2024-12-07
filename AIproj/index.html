@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wumpus World Simulation</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Wumpus World Simulation</h1>
+  <div id="grid"></div>
+  <div id="controls">
+    <button onclick="moveAgent('up')">Move Up</button>
+    <button onclick="moveAgent('left')">Move Left</button>
+    <button onclick="moveAgent('right')">Move Right</button>
+    <button onclick="moveAgent('down')">Move Down</button>
+    <button onclick="grabGold()">Grab Gold</button>
+    <button onclick="restartGame()">Restart</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SDLC Model on Screen</title>
+  <script src="aframe-v1.2.0.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f9;
+    }
+    h1 {
+      margin: 20px 0;
+      color: #333;
+    }
+    p {
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Software Engineering: SDLC Model</h1>
+  <p>Click or touch any phase for detailed information.</p>
+
+  <!-- A-Frame Scene -->
+  <a-scene>
+    <!-- Ground Plane -->
+    <a-plane position="0 -1 -5" rotation="-90 0 0" width="10" height="6" color="#7BC8A4"></a-plane>
+
+    <!-- SDLC Phases -->
+    <a-text value="Requirement" position="-4 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase" id="requirement"></a-text>
+    <a-text value="Design" position="-2 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase" id="design"></a-text>
+    <a-text value="Implementation" position="0 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase" id="implementation"></a-text>
+    <a-text value="Testing" position="2 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase" id="testing"></a-text>
+    <a-text value="Deployment" position="4 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase" id="deployment"></a-text>
+    <a-text value="Maintenance" position="6 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase" id="maintenance"></a-text>
+
+    <!-- Information Box -->
+    <a-plane position="0 -2.5 -4.5" width="8" height="3" color="#FFFFFF" visible="false" id="info-box">
+      <a-text id="info-text" value="" position="0 0 0.1" align="center" color="black" wrap-count="30"></a-text>
+    </a-plane>
+
+    <!-- Moving Sphere -->
+    <a-sphere color="#FF5722" radius="0.3" position="-4 0.5 -5"
+              animation="property: position; to: 6 0.5 -5; dur: 10000; loop: true; easing: linear;"></a-sphere>
+
+    <!-- Camera -->
+    <a-entity camera position="0 2 0" look-controls></a-entity>
+  </a-scene>
+
+  <script>
+    // SDLC phase details
+    const phaseDetails = {
+      requirement: "Requirement phase involves gathering and analyzing customer needs to define the system's goals.",
+      design: "Design phase focuses on creating the architecture and specifications of the system.",
+      implementation: "Implementation phase is where the actual coding and development of the system take place.",
+      testing: "Testing phase ensures the system is free of errors and meets the required standards.",
+      deployment: "Deployment phase involves delivering the system to the end users.",
+      maintenance: "Maintenance phase involves updating, fixing bugs, and improving the system over time."
+    };
+
+    // Add event listeners to show info when clicking on phases
+    document.querySelectorAll(".phase").forEach(phase => {
+      phase.addEventListener("click", function () {
+        const infoBox = document.querySelector("#info-box");
+        const infoText = document.querySelector("#info-text");
+
+        // Update info text based on clicked phase
+        infoText.setAttribute("value", phaseDetails[phase.id]);
+
+        // Show the info box
+        infoBox.setAttribute("visible", true);
+      });
+    });
+
+    // Hide info box when clicking anywhere outside the phases
+    document.querySelector("a-scene").addEventListener("click", function (event) {
+      if (!event.target.classList.contains("phase")) {
+        document.querySelector("#info-box").setAttribute("visible", false);
+      }
+    });
+  </script>
+</body>
+</html>
