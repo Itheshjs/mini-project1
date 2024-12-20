@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agents and Environment Simulation</title>
+  <link rel="stylesheet" href="stylesai2.css">
+</head>
+<body>
+  <div class="sidebar">
+    <h2>AI</h2>
+    <iframe src="AI - Agents & Environments SEM VI.pdf"></iframe>
+    <a href="https://www.ibm.com/think/topics/ai-agents" target="_blank">Ai Agents</a>
+    <a href="https://www.ibm.com/think/topics/ai-agents" target="_blank">Ai Environment</a>
+    <a href="https://www.youtube.com/watch?v=bvrhcsQHRNo" target="_blank">Video Tutorial</a>
+    <button onclick="openPDF()">Open PDF</button>
+</div>
+  <button class="back-button" onclick="goBack()">Back</button>
+    <button class="next-button" onclick="goNext()">Next</button>
+  <div class="container">
+    <h1>Agents and Environment Simulation</h1>
+    <div class="simulation">
+      <div class="environment">
+        <p>Environment</p>
+        <div id="percept" class="info-box">Percept: None</div>
+      </div>
+      <div class="agent">
+        <p>Agent</p>
+        <button id="sense-button">Sense Environment</button>
+        <button id="act-button">Act</button>
+      </div>
+    </div>
+  </div>
+  <div class="overlay" id="overlay"></div>
+    <div class="pdf-viewer" id="pdfViewer">
+        <iframe src="AI - Agents & Environments SEM VI.pdf"></iframe>
+        <button onclick="closePDF()">Close</button>
+    </div>
+  <script src="scriptai2.js"></script>
+</body>
+</html>

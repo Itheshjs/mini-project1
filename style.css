@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #e6e6e6;
+    background: linear-gradient(135deg, #c9d6ff, #e6e6e6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+}
+
+.container {
+    background: #fff;
+    width: 450px;
+    padding: 2rem;
+    margin: 0;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.8s ease-out;
+}
+
+form {
+    margin: 0 2rem;
+}
+
+.form-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.input-group {
+    padding: 1.2% 0;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border: 1px solid #4e73df;
+    box-shadow: 0 0 8px rgba(78, 115, 223, 0.5);
+}
+
+input::placeholder {
+    color: #b0b0b0;
+}
+
+label {
+    color: #757575;
+    position: absolute;
+    top: -8px;
+    left: 15px;
+    font-size: 14px;
+    transition: 0.3s ease all;
+    pointer-events: none;
+}
+
+input:focus ~ label, input:not(:placeholder-shown) ~ label {
+    top: -18px;
+    color: #4e73df;
+    font-size: 13px;
+}
+
+.recover {
+    text-align: right;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.recover a {
+    text-decoration: none;
+    color: #4e73df;
+    font-weight: 500;
+}
+
+.recover a:hover {
+    color: #1d3f72;
+    text-decoration: underline;
+}
+
+.btn {
+    font-size: 1.1rem;
+    padding: 10px 0;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    width: 100%;
+    background: #4e73df;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background: #2d5cbf;
+    transform: scale(1.05);
+}
+
+.or {
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    text-align: center;
+    color: #757575;
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    font-weight: 500;
+}
+
+button {
+    color: #4e73df;
+    border: none;
+    background-color: transparent;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+button:hover {
+    text-decoration: underline;
+    color: #1d3f72;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}

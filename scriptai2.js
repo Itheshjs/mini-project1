@@ -1,3 +1,26 @@
+function goBack() {
+  // Navigate to the previous page
+  window.location.href = "homepage.html";
+}
+
+function goNext() {
+  // Navigate to the next page
+  window.location.href = "next-page.html";
+}
+function openPDF() {
+  const overlay = document.getElementById('overlay');
+  const pdfViewer = document.getElementById('pdfViewer');
+  overlay.style.display = 'block';
+  pdfViewer.style.display = 'block';
+}
+
+function closePDF() {
+  const overlay = document.getElementById('overlay');
+  const pdfViewer = document.getElementById('pdfViewer');
+  overlay.style.display = 'none';
+  pdfViewer.style.display = 'none';
+}
+
 // Select elements
 const perceptBox = document.getElementById('percept');
 const senseButton = document.getElementById('sense-button');

@@ -4,55 +4,235 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SDLC Model on Screen</title>
-  <script src="aframe-v1.2.0.js"></script>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       text-align: center;
       background-color: #f4f4f9;
+      display: flex;
+      flex-direction: row;
+      min-height: 100vh;
     }
+    .sidebar {
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            position: fixed;
+            z-index: 100;
+        }
+
+        .sidebar iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            margin-top: 20px;
+            overflow-y: scroll;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .sidebar a:hover {
+            color: #4CAF50;
+        }
+
     h1 {
       margin: 20px 0;
       color: #333;
     }
+
     p {
       color: #555;
     }
+
+    .sidebar {
+      width: 250px;
+      height: 100%;
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      position: fixed;
+      z-index: 100;
+    }
+
+    .sidebar iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      margin-top: 20px;
+      overflow-y: scroll;
+    }
+
+    .sidebar a {
+      color: #fff;
+      text-decoration: none;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    .sidebar a:hover {
+      color: #4CAF50;
+    }
+
+    .content {
+      flex-grow: 1;
+      padding: 20px;
+      margin-left: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .back-button {
+            background-color: #376cdd;
+            color: white;
+            position: absolute;
+            top: 60px;
+            left: 350px;
+            border-radius: 10px;
+        }
+
+        .next-button {
+            background-color: rgb(40, 206, 40);
+            color: white;
+            position: absolute;
+            top: 60px;
+            right: 100px;
+            border-radius: 10px;
+        }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    a-scene {
+      width: 100%;
+      height: 100vh;
+    }
+    .pdf-viewer {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            height: 70%;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .pdf-viewer iframe {
+            width: 100%;
+            height: calc(100% - 50px);
+            border: none;
+        }
+
+        .pdf-viewer button {
+            width: 100%;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
   </style>
 </head>
 <body>
-  <h1>Software Engineering: SDLC Model</h1>
-  <p>Click or touch any phase for detailed information.</p>
+  <div class="sidebar">
+    <h2>Theory of Compution</h2>
+    <iframe src="SDLC.pdf"></iframe>
+    <a href="https://ggnindia.dronacharya.info/Downloads/Sub-info/PPT/Compiler-Design/Unit-I/6-Finite-Automata-DFA%20_%20NFA.pdf" target="_blank">Finite Automata</a>
+    <a href="https://www.cs.ucr.edu/~jiang/cs150/slides4week2_FA+REX.pdf" target="_blank">Related PDF</a>
+    <a href="https://notesioe.com/wp-content/uploads/2024/06/DFA-NFA-Example.pdf" target="_blank">Examples</a>
+    <button onclick="openPDF()">Open PDF</button>
+</div>
 
-  <!-- A-Frame Scene -->
-  <a-scene>
-    <!-- Ground Plane -->
-    <a-plane position="0 -1 -5" rotation="-90 0 0" width="10" height="6" color="#7BC8A4"></a-plane>
+  <div class="content">
+    <button class="back-button" onclick="goBack()">Back</button>
+    <button class="next-button" onclick="goNext()">Next</button>
+    <h1>Software Engineering: SDLC Model</h1>
+    <p>Click or touch any phase for detailed information.</p>
 
-    <!-- SDLC Phases -->
-    <a-text value="Requirement" position="-4 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase" id="requirement"></a-text>
-    <a-text value="Design" position="-2 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase" id="design"></a-text>
-    <a-text value="Implementation" position="0 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase" id="implementation"></a-text>
-    <a-text value="Testing" position="2 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase" id="testing"></a-text>
-    <a-text value="Deployment" position="4 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase" id="deployment"></a-text>
-    <a-text value="Maintenance" position="6 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase" id="maintenance"></a-text>
+    <a-scene embedded arjs>
+      <a-cursor color="#FF5733" raycast="objects: .clickable" cursor="fuse: true; maxDistance: 10; fuseTimeout: 500" position="0 1.5 0"></a-cursor>
+      <a-plane position="0 -1 -5" rotation="-90 0 0" width="10" height="6" color="#7BC8A4"></a-plane>
 
-    <!-- Information Box -->
-    <a-plane position="0 -2.5 -4.5" width="8" height="3" color="#FFFFFF" visible="false" id="info-box">
-      <a-text id="info-text" value="" position="0 0 0.1" align="center" color="black" wrap-count="30"></a-text>
-    </a-plane>
+      <a-text value="Requirement" position="-4 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase clickable" id="requirement"></a-text>
+      <a-text value="Design" position="-2 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase clickable" id="design"></a-text>
+      <a-text value="Implementation" position="0 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase clickable" id="implementation"></a-text>
+      <a-text value="Testing" position="2 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase clickable" id="testing"></a-text>
+      <a-text value="Deployment" position="4 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase clickable" id="deployment"></a-text>
+      <a-text value="Maintenance" position="6 1 -5" color="black" align="center" scale="1.5 1.5 1" class="phase clickable" id="maintenance"></a-text>
 
-    <!-- Moving Sphere -->
-    <a-sphere color="#FF5722" radius="0.3" position="-4 0.5 -5"
-              animation="property: position; to: 6 0.5 -5; dur: 10000; loop: true; easing: linear;"></a-sphere>
+      <a-plane position="0 -2.5 -4.5" width="8" height="3" color="#FFFFFF" visible="false" id="info-box">
+        <a-text id="info-text" value="" position="0 0 0.1" align="center" color="black" wrap-count="30"></a-text>
+      </a-plane>
 
-    <!-- Camera -->
-    <a-entity camera position="0 2 0" look-controls></a-entity>
-  </a-scene>
+      <a-sphere color="#FF5722" radius="0.3" position="-4 0.5 -5" animation="property: position; to: 6 0.5 -5; dur: 10000; loop: true; easing: linear;"></a-sphere>
+      <a-entity camera position="0 2 0" look-controls></a-entity>
+    </a-scene>
+  </div>
+  <div class="overlay" id="overlay"></div>
+  <div class="pdf-viewer" id="pdfViewer">
+      <iframe src="SDLC.pdf"></iframe>
+      <button onclick="closePDF()">Close</button>
+  </div>
 
   <script>
-    // SDLC phase details
+    function goBack() {
+      window.location.href = "homepage.html";
+    }
+
+    function goNext() {
+      window.location.href = "softwareprocess.html";
+    }
+    function openPDF() {
+            const overlay = document.getElementById('overlay');
+            const pdfViewer = document.getElementById('pdfViewer');
+            overlay.style.display = 'block';
+            pdfViewer.style.display = 'block';
+        }
+
+        function closePDF() {
+            const overlay = document.getElementById('overlay');
+            const pdfViewer = document.getElementById('pdfViewer');
+            overlay.style.display = 'none';
+            pdfViewer.style.display = 'none';
+        }
+    
+
     const phaseDetails = {
       requirement: "Requirement phase involves gathering and analyzing customer needs to define the system's goals.",
       design: "Design phase focuses on creating the architecture and specifications of the system.",
@@ -62,21 +242,15 @@
       maintenance: "Maintenance phase involves updating, fixing bugs, and improving the system over time."
     };
 
-    // Add event listeners to show info when clicking on phases
     document.querySelectorAll(".phase").forEach(phase => {
       phase.addEventListener("click", function () {
         const infoBox = document.querySelector("#info-box");
         const infoText = document.querySelector("#info-text");
-
-        // Update info text based on clicked phase
         infoText.setAttribute("value", phaseDetails[phase.id]);
-
-        // Show the info box
         infoBox.setAttribute("visible", true);
       });
     });
 
-    // Hide info box when clicking anywhere outside the phases
     document.querySelector("a-scene").addEventListener("click", function (event) {
       if (!event.target.classList.contains("phase")) {
         document.querySelector("#info-box").setAttribute("visible", false);

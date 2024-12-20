@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Types of IPR</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Types of Intellectual Property Rights (IPR)</h1>
+    <p>Click on the objects below to learn more about each type of IPR.</p>
+    <div id="simulation-container">
+        <div class="ip-item" onclick="showInfo('Patents')">
+            <img src="lightbulb.png" alt="Patents" />
+            <p>Patents</p>
+        </div>
+        <div class="ip-item" onclick="showInfo('Copyrights')">
+            <img src="book.png" alt="Copyrights" />
+            <p>Copyrights</p>
+        </div>
+        <div class="ip-item" onclick="showInfo('Trademarks')">
+            <img src="logo.png" alt="Trademarks" />
+            <p>Trademarks</p>
+        </div>
+        <div class="ip-item" onclick="showInfo('Trade Secrets')">
+            <img src="lock.png" alt="Trade Secrets" />
+            <p>Trade Secrets</p>
+        </div>
+    </div>
+
+    <div id="info-overlay" class="hidden">
+        <div id="info-content">
+            <h2 id="info-title">IPR Type</h2>
+            <p id="info-description">Description</p>
+            <button onclick="closeInfo()">Close</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

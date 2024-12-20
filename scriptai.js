@@ -1,3 +1,25 @@
+function goBack() {
+  // Navigate to the previous page
+  window.location.href = "homepage.html";
+}
+
+function goNext() {
+  // Navigate to the next page
+  window.location.href = "next-page.html";
+}
+function openPDF() {
+  const overlay = document.getElementById('overlay');
+  const pdfViewer = document.getElementById('pdfViewer');
+  overlay.style.display = 'block';
+  pdfViewer.style.display = 'block';
+}
+
+function closePDF() {
+  const overlay = document.getElementById('overlay');
+  const pdfViewer = document.getElementById('pdfViewer');
+  overlay.style.display = 'none';
+  pdfViewer.style.display = 'none';
+}
 let gridData = []; // Holds the randomized grid data
 const gridSize = 4; // 4x4 grid
 
@@ -110,25 +132,40 @@ function renderGrid() {
 
 // Move the agent within the grid
 function moveAgent(direction) {
-  const { x, y } = agent;
+  const previousX = agent.x;
+  const previousY = agent.y;
 
   // Update position based on direction
-  if (direction === "up" && y > 0) agent.y--;
-  if (direction === "down" && y < gridSize - 1) agent.y++;
-  if (direction === "left" && x > 0) agent.x--;
-  if (direction === "right" && x < gridSize - 1) agent.x++;
+  if (direction === "up" && agent.y > 0) agent.y--;
+  if (direction === "down" && agent.y < gridSize - 1) agent.y++;
+  if (direction === "left" && agent.x > 0) agent.x--;
+  if (direction === "right" && agent.x < gridSize - 1) agent.x++;
+
+  // Clear the agent from the previous position
+  if (gridData[previousY][previousX].type === "start") {
+    gridData[previousY][previousX].type = "empty";
+  }
 
   // Check the current cell for interactions
   const room = gridData[agent.y][agent.x];
   if (room.type === "wumpus") {
     alert("You were eaten by the Wumpus!");
     restartGame();
+    return;
   } else if (room.type === "pit") {
     alert("You fell into a pit!");
     restartGame();
+    return;
   } else if (room.type === "gold") {
     agent.hasGold = true;
     alert("You grabbed the gold! Return to Start to win!");
+  }
+
+  // Check if the agent is back at the start with gold
+  if (agent.x === 0 && agent.y === 3 && agent.hasGold) {
+    alert("You win! You've successfully returned with the gold!");
+    restartGame();
+    return;
   }
 
   renderGrid();
@@ -148,10 +185,12 @@ function grabGold() {
   const room = gridData[agent.y][agent.x];
   if (room.type === "gold") {
     agent.hasGold = true;
+    gridData[agent.y][agent.x].type = "empty"; // Remove the gold from the grid
     alert("You grabbed the gold! Return to Start to win!");
   } else {
     alert("No gold here!");
   }
+  renderGrid();
 }
 
 // Initialize the game on page load

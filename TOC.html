@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFA/DFA Simulator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+            background-color: #f4f4f9;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            position: fixed;
+            z-index: 100;
+        }
+
+        .sidebar iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            margin-top: 20px;
+            overflow-y: scroll;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .sidebar a:hover {
+            color: #4CAF50;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            margin-left: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .simulator {
+            width: 100%;
+            max-width: 1000px;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .state {
+            margin: 10px 0;
+        }
+
+        .state input, .state textarea {
+            margin-top: 5px;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .controls {
+            margin: 20px 0;
+        }
+
+        .output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+
+        .output.success {
+            color: green;
+            font-weight: bold;
+        }
+
+        .output.failure {
+            color: red;
+            font-weight: bold;
+        }
+
+        .back-button {
+            background-color: #376cdd;
+            color: white;
+            position: absolute;
+            top: 60px;
+            left: 100px;
+            border-radius: 10px;
+        }
+
+        .next-button {
+            background-color: rgb(40, 206, 40);
+            color: white;
+            position: absolute;
+            top: 60px;
+            right: 100px;
+            border-radius: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .pdf-viewer {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            height: 70%;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .pdf-viewer iframe {
+            width: 100%;
+            height: calc(100% - 50px);
+            border: none;
+        }
+
+        .pdf-viewer button {
+            width: 100%;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Theory of Compution</h2>
+        <iframe src="NFAANDDFA.pdf"></iframe>
+        <a href="https://ggnindia.dronacharya.info/Downloads/Sub-info/PPT/Compiler-Design/Unit-I/6-Finite-Automata-DFA%20_%20NFA.pdf" target="_blank">Finite Automata</a>
+        <a href="https://www.cs.ucr.edu/~jiang/cs150/slides4week2_FA+REX.pdf" target="_blank">Related PDF</a>
+        <a href="https://notesioe.com/wp-content/uploads/2024/06/DFA-NFA-Example.pdf" target="_blank">Examples</a>
+        <button onclick="openPDF()">Open PDF</button>
+    </div>
+
+    <div class="content">
+        <div>
+            <button class="back-button" onclick="goBack()">Back</button>
+            <button class="next-button" onclick="goNext()">Next</button>
+            <h1>NFA/DFA Simulator</h1>
+            <div class="simulator">
+                <div class="state">
+                    <label for="states">States (comma-separated):</label>
+                    <input type="text" id="states" placeholder="e.g., q0,q1,q2">
+                </div>
+                <div class="state">
+                    <label for="alphabet">Alphabet (comma-separated):</label>
+                    <input type="text" id="alphabet" placeholder="e.g., 0,1">
+                </div>
+                <div class="state">
+                    <label for="transitions">Transitions (format: state, input, nextState):</label>
+                    <textarea id="transitions" rows="4" placeholder="e.g., q0,0,q1\nq1,1,q2"></textarea>
+                </div>
+                <div class="state">
+                    <label for="start-state">Start State:</label>
+                    <input type="text" id="start-state" placeholder="e.g., q0">
+                </div>
+                <div class="state">
+                    <label for="final-states">Final States (comma-separated):</label>
+                    <input type="text" id="final-states" placeholder="e.g., q2">
+                </div>
+
+                <div class="controls">
+                    <label for="input-string">Test Input String:</label>
+                    <input type="text" id="input-string" placeholder="e.g., 01">
+                    <button onclick="simulateDFA()">Simulate</button>
+                </div>
+
+                <div class="output" id="output"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="pdf-viewer" id="pdfViewer">
+        <iframe src="NFAANDDFA.pdf"></iframe>
+        <button onclick="closePDF()">Close</button>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = "homepage.html";
+        }
+
+        function goNext() {
+            window.location.href = "next-page.html";
+        }
+
+        function openPDF() {
+            const overlay = document.getElementById('overlay');
+            const pdfViewer = document.getElementById('pdfViewer');
+            overlay.style.display = 'block';
+            pdfViewer.style.display = 'block';
+        }
+
+        function closePDF() {
+            const overlay = document.getElementById('overlay');
+            const pdfViewer = document.getElementById('pdfViewer');
+            overlay.style.display = 'none';
+            pdfViewer.style.display = 'none';
+        }
+
+        function simulateDFA() {
+            const states = document.getElementById("states").value.split(",");
+            const alphabet = document.getElementById("alphabet").value.split(",");
+            const transitionsInput = document.getElementById("transitions").value.split("\n");
+            const startState = document.getElementById("start-state").value;
+            const finalStates = document.getElementById("final-states").value.split(",");
+            const inputString = document.getElementById("input-string").value;
+
+            const transitions = {};
+
+            transitionsInput.forEach(line => {
+                const [state, input, nextState] = line.split(",");
+                if (!transitions[state]) {
+                    transitions[state] = {};
+                }
+                transitions[state][input] = nextState;
+            });
+
+            let currentState = startState;
+            for (const symbol of inputString) {
+                if (!alphabet.includes(symbol) || !transitions[currentState] || !transitions[currentState][symbol]) {
+                    displayOutput("Rejected: Invalid input or transition", "failure");
+                    return;
+                }
+                currentState = transitions[currentState][symbol];
+            }
+
+            if (finalStates.includes(currentState)) {
+                displayOutput("Accepted: Input string is valid", "success");
+            } else {
+                displayOutput("Rejected: Input string is invalid", "failure");
+            }
+        }
+
+        function displayOutput(message, type) {
+            const outputDiv = document.getElementById("output");
+            outputDiv.textContent = message;
+            outputDiv.className = `output ${type}`;
+        }
+    </script>
+</body>
+</html>

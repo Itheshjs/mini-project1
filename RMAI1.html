@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Research Process Flow</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      background-color: #f4f4f9;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 250px;
+      height: 100%;
+      background-color: #333;
+      color: white;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      z-index: 100;
+      position: fixed;
+    }
+
+    .sidebar iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      margin-top: 20px;
+      overflow-y: scroll;
+    }
+
+    /* Links Section in Sidebar */
+    .sidebar a {
+      color: #fff;
+      text-decoration: none;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+
+    .sidebar a:hover {
+      color: #4CAF50;
+    }
+
+    /* Content Section */
+    .content {
+      flex-grow: 1;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-left: 260px; /* Adjust for sidebar width */
+    }
+
+    /* Info Box Styling */
+    .info-box {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 600px;
+      display: none;
+      z-index: 10;
+    }
+
+    .info-box h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .info-box p {
+      margin: 5px 0 0;
+      font-size: 14px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #376cdd;
+      color: white;
+    }
+
+    button:hover {
+      background-color: #2859b8;
+    }
+
+    .back-button {
+      background-color: #376cdd;
+      color: #4B5563;
+      position: fixed;
+      top: 60px;
+      left: 350px;
+      border-radius: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      z-index: 10; /* Ensures it's above the 3D scene */
+    }
+
+    .next-button {
+      background-color: rgb(40, 206, 40);
+      position: fixed;
+      top: 60px;
+      right: 100px;
+      border-radius: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+      z-index: 10; /* Ensures it's above the 3D scene */
+    }
+
+    /* PDF Viewer Styles */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 999;
+    }
+
+    .pdf-viewer {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70%;
+      height: 70%;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+    }
+
+    .pdf-viewer iframe {
+      width: 100%;
+      height: calc(100% - 50px);
+      border: none;
+    }
+
+    .pdf-viewer button {
+      width: 100%;
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Research Methodology</h2>
+    <!-- PDF Viewer -->
+    <button onclick="openPDF()">Open PDF</button>
+    <a href="https://www.emerald.com/insight/content/doi/10.1108/jmtm-09-2018-0304/full/html" target="_blank">Research Process</a>
+    <a href="https://www.researchgate.net/publication/23646486_Introduction_-_on_Interactive_Research" target="_blank">Related PDF</a>
+    <a href="https://www.umgc.edu/current-students/learning-resources/writing-center/online-guide-to-writing/tutorial/chapter4/ch4-06" target="_blank">Research Resources</a>
+  </div>
+
+  <!-- Content Section -->
+  <div class="content">
+    <button class="back-button" onclick="goBack()">Back</button>
+    <button class="next-button" onclick="goNext()">Next</button>
+
+    <h1>Interactive Research Process Flow</h1>
+    <p>Click on each 3D model to learn more about the research stages.</p>
+
+    <!-- Info Box -->
+    <div id="info-box" class="info-box">
+      <h3 id="info-title"></h3>
+      <p id="info-description"></p>
+      <button onclick="closeInfo()">Close</button>
+    </div>
+
+    <!-- A-Frame Scene -->
+    <a-scene id="scene">
+      <!-- Ground Plane -->
+      <a-plane position="0 -1 -5" rotation="-90 0 0" width="10" height="4" color="#7BC8A4"></a-plane>
+
+      <!-- Problem Identification -->
+      <a-box 
+        position="-3 0 -5" 
+        color="#FF5722" 
+        depth="1" 
+        height="1" 
+        width="1" 
+        class="clickable" 
+        data-title="Problem Identification" 
+        data-description="The first stage involves identifying the research problem and defining the objectives."
+        onclick="showInfo(event)">
+      </a-box>
+      <a-text value="Problem Identification" position="-3 1.5 -5" align="center" color="#333"></a-text>
+
+      <!-- Hypothesis -->
+      <a-sphere 
+        position="-1 0 -5" 
+        color="#3F51B5" 
+        radius="0.6" 
+        class="clickable" 
+        data-title="Hypothesis" 
+        data-description="The hypothesis is formulated as a tentative answer or solution to the problem."
+        onclick="showInfo(event)">
+      </a-sphere>
+      <a-text value="Hypothesis" position="-1 1.5 -5" align="center" color="#333"></a-text>
+
+      <!-- Data Collection -->
+      <a-cylinder 
+        position="1 0 -5" 
+        color="#9C27B0" 
+        radius="0.5" 
+        height="1" 
+        class="clickable" 
+        data-title="Data Collection" 
+        data-description="Data collection involves gathering data using various techniques such as surveys and experiments."
+        onclick="showInfo(event)">
+      </a-cylinder>
+      <a-text value="Data Collection" position="1 1.5 -5" align="center" color="#333"></a-text>
+
+      <!-- Data Analysis -->
+      <a-cone 
+        position="3 0 -5" 
+        color="#4CAF50" 
+        radius-bottom="0.7" 
+        height="1.5" 
+        class="clickable" 
+        data-title="Data Analysis" 
+        data-description="Data analysis involves processing and interpreting the data to derive insights."
+        onclick="showInfo(event)">
+      </a-cone>
+      <a-text value="Data Analysis" position="3 1.8 -5" align="center" color="#333"></a-text>
+
+      <!-- Camera -->
+      <a-entity camera position="0 2 0" look-controls></a-entity>
+    </a-scene>
+  </div>
+
+  <!-- Overlay and PDF Viewer -->
+  <div class="overlay" id="overlay"></div>
+  <div class="pdf-viewer" id="pdfViewer">
+    <iframe src="INTRODUCTION-TO-RESEARCH-METHODOLOGY-2020.pdf"></iframe>
+    <button onclick="closePDF()">Close PDF</button>
+  </div>
+
+  <script>
+    function goBack() {
+      // Navigate to the previous page
+      window.location.href = "homepage.html";
+    }
+
+    function goNext() {
+      // Navigate to the next page
+      window.location.href = "next-page.html";
+    }
+
+    // Function to display information
+    function showInfo(event) {
+      const infoBox = document.getElementById("info-box");
+      const infoTitle = document.getElementById("info-title");
+      const infoDescription = document.getElementById("info-description");
+
+      const title = event.target.getAttribute("data-title");
+      const description = event.target.getAttribute("data-description");
+
+      // Update info box with clicked model's data
+      infoTitle.textContent = title;
+      infoDescription.textContent = description;
+      infoBox.style.display = "block";
+    }
+
+    function closeInfo() {
+      const infoBox = document.getElementById("info-box");
+      infoBox.style.display = "none";
+    }
+
+    // PDF Viewer functions
+    function openPDF() {
+      const overlay = document.getElementById("overlay");
+      const pdfViewer = document.getElementById("pdfViewer");
+
+      overlay.style.display = "block";
+      pdfViewer.style.display = "block";
+    }
+
+    function closePDF() {
+      const overlay = document.getElementById("overlay");
+      const pdfViewer = document.getElementById("pdfViewer");
+
+      overlay.style.display = "none";
+      pdfViewer.style.display = "none";
+    }
+  </script>
+</body>
+</html>

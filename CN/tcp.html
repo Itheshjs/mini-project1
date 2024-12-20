@@ -47,9 +47,34 @@
       cursor: pointer;
       border-radius: 5px;
     }
+    .back-button {
+            background-color: #376cdd;
+            color: #4B5563;
+            position: absolute;
+            top: 60px;
+            left: 100px;
+            border-radius: 10px;
+            
+        }
+        .next-button {
+          background-color: rgb(40, 206, 40);
+
+            position: absolute;
+            top: 60px;
+            right: 100px;
+            border-radius: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
   </style>
 </head>
 <body>
+  <button class="back-button" onclick="goBack()">Back</button>
+    <button class="next-button" onclick="goNext()">Next</button>
   <h1>OSI Model - Computer Network</h1>
   <p>Click on any OSI layer for detailed information.</p>
 
@@ -90,6 +115,15 @@
   </div>
 
   <script>
+     function goBack() {
+            // Navigate to the previous page
+            window.location.href = "homepage.html";
+        }
+
+        function goNext() {
+            // Navigate to the next page
+            window.location.href = "next-page.html";
+        }
     // OSI Layer details
     const osiDetails = {
       physical: "The Physical Layer deals with the hardware transmission of raw data over a physical medium.",

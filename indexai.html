@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wumpus World Simulation</title>
+  <link rel="stylesheet" href="styleai.css">
+</head>
+<body>
+  <div class="sidebar">
+    <h2>AI</h2>
+    <iframe src="Wumpus World.pdf"></iframe>
+    <a href="https://www.javatpoint.com/the-wumpus-world-in-artificial-intelligence" target="_blank">Wumpus World</a>
+    <a href="https://www.scaler.com/topics/artificial-intelligence-tutorial/wumpus-world-in-ai/" target="_blank">Related</a>
+    <a href="https://www.youtube.com/watch?v=Bz_cFuf4aQg" target="_blank">Tutorial Video</a>
+    <button onclick="openPDF()">Open PDF</button>
+</div>
+  <button class="back-button" onclick="goBack()">Back</button>
+  <button class="next-button" onclick="goNext()">Next</button>
+  <h1>Wumpus World Simulation</h1>
+  <div id="grid"></div>
+  <div id="controls">
+    <button onclick="moveAgent('up')">Move Up</button>
+    <button onclick="moveAgent('left')">Move Left</button>
+    <button onclick="moveAgent('right')">Move Right</button>
+    <button onclick="moveAgent('down')">Move Down</button>
+    <button onclick="grabGold()">Grab Gold</button>
+    <button onclick="restartGame()">Restart</button>
+  </div>
+  <div class="overlay" id="overlay"></div>
+  <div class="pdf-viewer" id="pdfViewer">
+      <iframe src="Wumpus World.pdf"></iframe>
+      <button onclick="closePDF()">Close</button>
+  </div>
+
+  <script src="scriptai.js"></script>
+</body>
+</html>

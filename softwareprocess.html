@@ -8,11 +8,86 @@
     body {
       font-family: Arial, sans-serif;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
+      padding: 0;
       background-color: #f4f4f9;
+    }
+    .sidebar {
+      width: 250px;
+  height: 100%;
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  position: fixed;
+  top: 0; /* Ensure it aligns with the top of the viewport */
+  left: 0; /* Fix it to the left side */
+  z-index: 100;
+        }
+
+        .sidebar iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            margin-top: 20px;
+            overflow-y: scroll;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .sidebar a:hover {
+            color: #4CAF50;
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+            margin-left: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2em;
+      color: #333;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: space-between;
+      width: 320px;
+      margin-bottom: 20px;
+    }
+
+    .phase-button {
+      padding: 10px 20px;
+      font-size: 18px;
+      cursor: pointer;
+      background-color: #76c7c0;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .phase-button:hover {
+      background-color: #66b0a3;
     }
 
     .process-container {
@@ -20,6 +95,7 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
+      margin-bottom: 20px;
     }
 
     .phase-box {
@@ -46,41 +122,118 @@
       color: white;
     }
 
-    .phase-button {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 18px;
-      cursor: pointer;
-      background-color: #76c7c0;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      transition: background-color 0.3s;
-    }
-
-    .phase-button:hover {
-      background-color: #66b0a3;
-    }
-
     .phase-info {
-        width: 300;
-        height: 200;
-      display: none;
-      margin-top: 10px;
-      background-color: darkgoldenrod;
-      padding: 5px;
-      border-radius: 8px;
+      width: 600px;
+      padding: 20px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       text-align: center;
+      margin-top: 20px;
+      display: none;
     }
 
     .phase-info.active {
       display: block;
     }
 
+    #phase-title {
+      font-size: 1.5em;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    #phase-description {
+      font-size: 1em;
+      color: #555;
+    }
+    .back-button {
+            background-color: #376cdd;
+            color: #4B5563;
+            position: absolute;
+            top: 60px;
+            left: 350px;
+            border-radius: 10px;
+            
+        }
+        .next-button {
+          background-color: rgb(40, 206, 40);
+
+            position: absolute;
+            top: 60px;
+            right: 100px;
+            border-radius: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .pdf-viewer {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            height: 70%;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        .pdf-viewer iframe {
+            width: 100%;
+            height: calc(100% - 50px);
+            border: none;
+        }
+
+        .pdf-viewer button {
+            width: 100%;
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+
   </style>
 </head>
 <body>
+  <div class="sidebar">
+    <h2>Process Flow</h2>
+    <iframe src="Process-Flow.pdf"></iframe>
+    <a href="https://www.geeksforgeeks.org/software-processes-in-software-engineering/" target="_blank">Process Flow</a>
+    <a href="https://asana.com/resources/process-flow" target="_blank">Related </a>
+    <a href="https://www.youtube.com/watch?v=nXtFkhMpR5Y" target="_blank">Video Tutorial</a>
+    <button onclick="openPDF()">Open PDF</button>
+</div>
+  
+    <button class="back-button" onclick="goBack()">Back</button>
+    <button class="next-button" onclick="goNext()">Next</button>
+
+
+<h1>Process Flow</h1>
+
+<div class="button-container">
+  <button class="phase-button" id="prev-phase">Back</button>
+  <button class="phase-button" id="next-phase">Next</button>
+</div>
 
 <div class="process-container">
   <div class="phase-box" id="communication">
@@ -100,14 +253,39 @@
   </div>
 </div>
 
-<button class="phase-button" id="next-phase">Next Phase</button>
-
 <div class="phase-info" id="phase-info">
   <h3 id="phase-title">Phase Information</h3>
   <p id="phase-description">Details about the current phase will be displayed here.</p>
 </div>
+<div class="overlay" id="overlay"></div>
+<div class="pdf-viewer" id="pdfViewer">
+    <iframe src="Process-Flow.pdf"></iframe>
+    <button onclick="closePDF()">Close</button>
+</div>
 
 <script>
+     function goBack() {
+            // Navigate to the previous page
+            window.location.href = "homepage.html";
+        }
+
+        function goNext() {
+            // Navigate to the next page
+            window.location.href = "next-page.html";
+        }
+        function openPDF() {
+            const overlay = document.getElementById('overlay');
+            const pdfViewer = document.getElementById('pdfViewer');
+            overlay.style.display = 'block';
+            pdfViewer.style.display = 'block';
+        }
+
+        function closePDF() {
+            const overlay = document.getElementById('overlay');
+            const pdfViewer = document.getElementById('pdfViewer');
+            overlay.style.display = 'none';
+            pdfViewer.style.display = 'none';
+        }
   // Phases and their descriptions
   const phases = [
     {
@@ -136,6 +314,7 @@
 
   const phaseBoxes = document.querySelectorAll('.phase-box');
   const nextButton = document.getElementById('next-phase');
+  const prevButton = document.getElementById('prev-phase');
   const phaseInfo = document.getElementById('phase-info');
   const phaseTitle = document.getElementById('phase-title');
   const phaseDescription = document.getElementById('phase-description');
@@ -164,6 +343,16 @@
       updatePhaseDisplay();
     } else {
       alert("You have completed the entire process flow!");
+    }
+  });
+
+  // Go to the previous phase
+  prevButton.addEventListener('click', () => {
+    if (currentPhase > 0) {
+      currentPhase--;
+      updatePhaseDisplay();
+    } else {
+      alert("You are already at the first phase!");
     }
   });
 
